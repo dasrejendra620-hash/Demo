@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aadi Woodcraft | Custom Furniture</title>
+<meta name="description" content="Custom-made sofas, beds, dining tables and wardrobes in solid wood. Designed with you, built in our own workshop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* =========================================================
+     COLOURS & FONTS: change here and the whole site updates
+     ========================================================= */
+  :root{
+    --stone:#E8E5DE;      /* page background */
+    --linen:#F5F3EE;      /* light panels */
+    --forest:#22342C;     /* deep green, main dark colour */
+    --forest-2:#2F4639;
+    --walnut:#5A3E2B;
+    --brass:#B08D57;      /* accent */
+    --ink:#1C2420;        /* text */
+    --muted:#5E675F;
+    --wood:#8A5A36;       /* changes with the finish switcher */
+
+    --display:"Marcellus","Times New Roman",serif;
+    --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--stone);color:var(--ink);line-height:1.6;font-size:17px;-webkit-font-smoothing:antialiased}
+  img,svg{display:block;max-width:100%}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--brass);outline-offset:3px}
+
+  .wrap{width:min(1160px,92%);margin-inline:auto}
+  h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.1;letter-spacing:.005em}
+  h2{font-size:clamp(2rem,4.2vw,3.2rem);margin-bottom:1rem}
+  p{max-width:62ch}
+
+  .btn{display:inline-block;padding:.95rem 1.7rem;border-radius:999px;font-weight:600;font-size:.98rem;text-decoration:none;border:1.5px solid transparent;cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s}
+  .btn-primary{background:var(--forest);color:var(--linen)}
+  .btn-primary:hover{background:var(--walnut)}
+  .btn-ghost{border-color:var(--forest);color:var(--forest);background:transparent}
+  .btn-ghost:hover{background:var(--forest);color:var(--linen)}
+
+  /* ---------- Header ---------- */
+  header{position:sticky;top:0;z-index:20;background:rgba(232,229,222,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(28,36,32,.12)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{font-family:var(--display);font-size:1.5rem;text-decoration:none;color:var(--forest)}
+  .nav ul{display:flex;gap:2rem;list-style:none}
+  .nav ul a{text-decoration:none;font-weight:500;font-size:.98rem;color:var(--muted)}
+  .nav ul a:hover{color:var(--forest)}
+  .nav .btn{padding:.65rem 1.3rem;font-size:.92rem}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:clamp(3rem,7vw,6rem) 0 clamp(3rem,6vw,5rem)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+  .hero h1{font-size:clamp(2.6rem,6.2vw,5rem);color:var(--forest);margin-bottom:1.4rem}
+  .hero p.lead{font-size:1.18rem;color:var(--muted);margin-bottom:2rem}
+  .hero-actions{display:flex;gap:.9rem;flex-wrap:wrap}
+
+  .stage{background:var(--linen);border-radius:28px;padding:2rem 1.5rem 1.6rem;text-align:center}
+  .stage svg{width:100%;height:auto;max-height:340px}
+  .chair-wood{fill:var(--wood);transition:fill .45s ease}
+  .finish-label{margin-top:.4rem;font-family:var(--display);font-size:1.25rem;color:var(--forest)}
+  .finish-hint{font-size:.9rem;color:var(--muted);margin-bottom:1rem}
+  .swatches{display:flex;justify-content:center;gap:.8rem}
+  .swatch{width:44px;height:44px;border-radius:50%;border:3px solid var(--linen);box-shadow:0 0 0 1.5px rgba(28,36,32,.25);cursor:pointer;transition:box-shadow .2s,transform .2s}
+  .swatch:hover{transform:scale(1.07)}
+  .swatch[aria-pressed="true"]{box-shadow:0 0 0 3px var(--forest)}
+
+  /* single page-load moment: the chair settles in */
+  @keyframes settle{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  .stage{animation:settle .8s ease both}
+
+  /* ---------- Collections ---------- */
+  section{padding:clamp(3.5rem,7vw,6rem) 0}
+  .intro{margin-bottom:2.5rem}
+  .intro p{color:var(--muted)}
+  .rows{border-top:1px solid rgba(28,36,32,.2)}
+  .row{display:grid;grid-template-columns:1fr 1.4fr auto;gap:2rem;align-items:center;padding:1.6rem .5rem;border-bottom:1px solid rgba(28,36,32,.2);text-decoration:none;transition:background .2s,padding .2s}
+  .row:hover{background:var(--linen);padding-inline:1.2rem}
+  .row h3{font-size:clamp(1.5rem,2.6vw,2.1rem);color:var(--forest)}
+  .row p{color:var(--muted);font-size:.98rem}
+  .row span{font-weight:600;color:var(--walnut);font-size:.95rem;white-space:nowrap}
+
+  /* ---------- Workshop (dark) ---------- */
+  .workshop{background:var(--forest);color:var(--linen)}
+  .workshop h2{color:var(--linen)}
+  .workshop .intro p{color:rgba(245,243,238,.75)}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;counter-reset:s;margin-top:2.5rem}
+  .step{border-top:2px solid var(--brass);padding-top:1.2rem;counter-increment:s}
+  .step::before{content:counter(s);font-family:var(--display);font-size:2.4rem;color:var(--brass);display:block;line-height:1;margin-bottom:.7rem}
+  .step h3{font-size:1.4rem;margin-bottom:.5rem}
+  .step p{font-size:.97rem;color:rgba(245,243,238,.75)}
+
+  /* ---------- Promises ---------- */
+  .promises{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem 2.5rem}
+  .promise h3{font-size:1.5rem;color:var(--forest);margin-bottom:.5rem}
+  .promise p{color:var(--muted);font-size:1rem}
+
+  /* ---------- Gallery ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:150px;gap:1rem}
+  .tile{border-radius:18px;display:flex;align-items:flex-end;padding:1rem 1.2rem;color:var(--linen);font-family:var(--display);font-size:1.2rem}
+  .t1{grid-column:span 3;grid-row:span 2;background:linear-gradient(160deg,var(--walnut),#3b281c)}
+  .t2{grid-column:span 3;background:var(--forest-2)}
+  .t3{grid-column:span 2;background:var(--brass);color:var(--ink)}
+  .t4{grid-column:span 1;background:#7b6a58}
+  .t5{grid-column:span 3;background:#3a3f3a}
+  .gallery-note{margin-top:1rem;font-size:.9rem;color:var(--muted)}
+
+  /* ---------- Reviews ---------- */
+  .reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .review{background:var(--linen);padding:1.8rem;border-radius:20px}
+  .review p{font-size:1.02rem;margin-bottom:1.2rem}
+  .review b{display:block;color:var(--forest)}
+  .review small{color:var(--muted)}
+
+  /* ---------- Contact ---------- */
+  .contact{background:var(--linen)}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem}
+  .contact-info p{color:var(--muted);margin-bottom:1.6rem}
+  .contact-info dl{display:grid;gap:1.1rem}
+  .contact-info dt{font-weight:600;color:var(--forest)}
+  .contact-info dd{color:var(--muted)}
+  form{display:grid;gap:1rem}
+  label{display:grid;gap:.35rem;font-weight:600;font-size:.95rem;color:var(--forest)}
+  input,select,textarea{font:inherit;font-weight:400;padding:.85rem 1rem;border:1.5px solid rgba(28,36,32,.25);border-radius:12px;background:#fff;color:var(--ink)}
+  textarea{min-height:110px;resize:vertical}
+  .form-note{font-size:.88rem;color:var(--muted)}
+
+  footer{background:var(--forest);color:rgba(245,243,238,.75);padding:2rem 0;font-size:.92rem}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem}
+
+  /* ---------- WhatsApp float ---------- */
+  .wa{position:fixed;right:18px;bottom:18px;z-index:30;background:#1f9d55;color:#fff;text-decoration:none;font-weight:600;padding:.85rem 1.3rem;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid,.contact-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr}
+    .promises,.reviews{grid-template-columns:1fr}
+    .row{grid-template-columns:1fr;gap:.4rem}
+    .nav ul{display:none}
+    .gallery{grid-template-columns:repeat(2,1fr);grid-auto-rows:130px}
+    .t1,.t2,.t3,.t4,.t5{grid-column:span 1;grid-row:span 1}
+    .t1{grid-column:span 2;grid-row:span 2}
+  }
+  @media (max-width:520px){.steps{grid-template-columns:1fr}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo" data-brand>Aadi Woodcraft</a>
+    <ul>
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#workshop">Our process</a></li>
+      <li><a href="#work">Our work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-primary">Get a free quote</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Furniture made for your home, not a catalogue.</h1>
+        <p class="lead">Solid wood sofas, beds, dining tables and wardrobes, designed with you and built in our own workshop. Pick your size, finish and fabric.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Get a free quote</a>
+          <a href="#work" class="btn btn-ghost">See our work</a>
+        </div>
+      </div>
+
+      <div class="stage">
+        <svg viewBox="0 0 400 350" role="img" aria-label="Armchair illustration. Choose a wood finish below.">
+          <ellipse cx="200" cy="330" rx="150" ry="12" fill="rgba(28,36,32,.12)"/>
+          <!-- wooden legs & rails -->
+          <path class="chair-wood" d="M98 246h26l-8 78h-12z"/>
+          <path class="chair-wood" d="M276 246h26l-6 78h-12z"/>
+          <rect class="chair-wood" x="84" y="236" width="232" height="16" rx="5"/>
+          <!-- upholstery -->
+          <rect x="100" y="40" width="200" height="160" rx="46" fill="#2F4639"/>
+          <rect x="66" y="128" width="64" height="112" rx="28" fill="#385343"/>
+          <rect x="270" y="128" width="64" height="112" rx="28" fill="#385343"/>
+          <rect x="104" y="168" width="192" height="72" rx="24" fill="#3F5C4B"/>
+          <path d="M140 62q60 22 120 0" stroke="rgba(255,255,255,.12)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="finish-label" id="finishName">Teak</div>
+        <p class="finish-hint">Tap a finish to see it on the chair</p>
+        <div class="swatches" role="group" aria-label="Wood finish">
+          <button class="swatch" style="background:#9A6A3F" data-name="Teak" data-color="#9A6A3F" aria-label="Teak finish" aria-pressed="true"></button>
+          <button class="swatch" style="background:#5A3E2B" data-name="Walnut" data-color="#5A3E2B" aria-label="Walnut finish" aria-pressed="false"></button>
+          <button class="swatch" style="background:#B9824F" data-name="Sheesham" data-color="#B9824F" aria-label="Sheesham finish" aria-pressed="false"></button>
+          <button class="swatch" style="background:#D2B48C" data-name="Natural oak" data-color="#D2B48C" aria-label="Natural oak finish" aria-pressed="false"></button>
+          <button class="swatch" style="background:#2B2420" data-name="Espresso" data-color="#2B2420" aria-label="Espresso finish" aria-pressed="false"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLECTIONS -->
+  <section id="collections" style="padding-top:2rem">
+    <div class="wrap">
+      <div class="intro">
+        <h2>What we make</h2>
+        <p>Every piece is made to order, so it fits your room and your family.</p>
+      </div>
+      <div class="rows">
+        <a class="row" href="#contact" data-pick="Sofas & seating"><h3>Sofas &amp; seating</h3><p>Sofas, recliners and accent chairs with hardwood frames and high-density foam.</p><span>Ask for a quote</span></a>
+        <a class="row" href="#contact" data-pick="Beds & storage"><h3>Beds &amp; storage</h3><p>Hydraulic and box beds, headboards, side tables and dressers.</p><span>Ask for a quote</span></a>
+        <a class="row" href="#contact" data-pick="Dining & tables"><h3>Dining &amp; tables</h3><p>4, 6 and 8 seater dining sets, coffee tables and consoles.</p><span>Ask for a quote</span></a>
+        <a class="row" href="#contact" data-pick="Wardrobes & kitchens"><h3>Wardrobes &amp; kitchens</h3><p>Sliding and hinged wardrobes, modular kitchens and TV units, measured on site.</p><span>Ask for a quote</span></a>
+        <a class="row" href="#contact" data-pick="Office & shop"><h3>Office &amp; shop</h3><p>Desks, reception counters, display units and storage for work spaces.</p><span>Ask for a quote</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="workshop" class="workshop">
+    <div class="wrap">
+      <div class="intro">
+        <h2>How your furniture gets made</h2>
+        <p>You see the design and the price before we cut a single plank.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Visit &amp; measure</h3><p>We come to your home, take measurements and understand how you live.</p></div>
+        <div class="step"><h3>Design &amp; quote</h3><p>You get a sketch, material options and a fixed price in writing.</p></div>
+        <div class="step"><h3>Build</h3><p>Our carpenters build it in our workshop. You can visit and see progress anytime.</p></div>
+        <div class="step"><h3>Deliver &amp; fit</h3><p>We deliver, install and check everything with you before we leave.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMISES -->
+  <section>
+    <div class="wrap">
+      <div class="intro"><h2>Why families choose us</h2></div>
+      <div class="promises">
+        <div class="promise"><h3>Seasoned solid wood</h3><p>Kiln-dried timber that does not warp or crack. We tell you exactly which wood goes into your piece.</p></div>
+        <div class="promise"><h3>Fixed price, no surprises</h3><p>The quote you approve is the price you pay. Changes are discussed before work starts.</p></div>
+        <div class="promise"><h3>Warranty and after-sales care</h3><p>Written warranty on frame and joinery, and we come back if something needs fixing.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="work" style="background:var(--linen)">
+    <div class="wrap">
+      <div class="intro"><h2>Recent work</h2></div>
+      <div class="gallery">
+        <div class="tile t1">Walnut dining table</div>
+        <div class="tile t2">Green velvet sofa</div>
+        <div class="tile t3">Teak bed</div>
+        <div class="tile t4">Side table</div>
+        <div class="tile t5">Sliding wardrobe</div>
+      </div>
+      <p class="gallery-note">Replace these blocks with your project photos: put an &lt;img&gt; inside each .tile and add object-fit:cover in CSS.</p>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section>
+    <div class="wrap">
+      <div class="intro"><h2>What customers say</h2></div>
+      <div class="reviews">
+        <div class="review"><p>They measured our flat twice and the wardrobe fit perfectly. Delivered on the day they promised.</p><b>Customer name</b><small>City, area</small></div>
+        <div class="review"><p>Our dining table looks better than the design they showed us. Very honest about wood and price.</p><b>Customer name</b><small>City, area</small></div>
+        <div class="review"><p>Called them a month later for a small repair and they came the same week. Rare these days.</p><b>Customer name</b><small>City, area</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap contact-grid">
+      <div class="contact-info">
+        <h2>Get a free quote</h2>
+        <p>Tell us what you need. We reply on WhatsApp the same day, and can visit your home for measurements at no charge.</p>
+        <dl>
+          <div><dt>Phone / WhatsApp</dt><dd id="phoneText">+91 00000 00000</dd></div>
+          <div><dt>Showroom &amp; workshop</dt><dd id="addrText">Your address, City, State</dd></div>
+          <div><dt>Open</dt><dd>Mon to Sat, 10 am to 8 pm</dd></div>
+        </dl>
+      </div>
+
+      <form id="quoteForm">
+        <label>Your name<input name="name" required autocomplete="name"></label>
+        <label>Phone number<input name="phone" type="tel" required autocomplete="tel"></label>
+        <label>What do you need?
+          <select name="need" id="needSelect">
+            <option>Sofas &amp; seating</option>
+            <option>Beds &amp; storage</option>
+            <option>Dining &amp; tables</option>
+            <option>Wardrobes &amp; kitchens</option>
+            <option>Office &amp; shop</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label>Details (optional)<textarea name="msg" placeholder="Room size, wood, budget, anything else"></textarea></label>
+        <button class="btn btn-primary" type="submit">Send on WhatsApp</button>
+        <p class="form-note">This opens WhatsApp with your message ready to send.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="yr"></span> <span data-brand>Aadi Woodcraft</span></span>
+    <span>Custom furniture, made to order</span>
+  </div>
+</footer>
+
+<a class="wa" id="waFloat" href="#" target="_blank" rel="noopener">WhatsApp us</a>
+
+<script>
+  /* =========================================================
+     EDIT THIS BLOCK FOR EACH NEW CLIENT
+     ========================================================= */
+  const CONFIG = {
+    brand:   "Aadi Woodcraft",
+    phone:   "+91 00000 00000",        // shown on the page
+    whatsapp:"910000000000",           // country code + number, no + or spaces
+    address: "Your address, City, State"
+  };
+
+  // fill in business details everywhere
+  document.querySelectorAll("[data-brand]").forEach(el => el.textContent = CONFIG.brand);
+  document.title = CONFIG.brand + " | Custom Furniture";
+  document.getElementById("phoneText").textContent = CONFIG.phone;
+  document.getElementById("addrText").textContent  = CONFIG.address;
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  document.getElementById("waFloat").href =
+    "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent("Hello, I'd like a quote for furniture.");
+
+  // wood finish switcher
+  const swatches = document.querySelectorAll(".swatch");
+  const finishName = document.getElementById("finishName");
+  swatches.forEach(btn => btn.addEventListener("click", () => {
+    document.documentElement.style.setProperty("--wood", btn.dataset.color);
+    finishName.textContent = btn.dataset.name;
+    swatches.forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+  }));
+
+  // clicking a collection pre-selects it in the form
+  const select = document.getElementById("needSelect");
+  document.querySelectorAll("[data-pick]").forEach(row => row.addEventListener("click", () => {
+    const want = row.dataset.pick;
+    [...select.options].forEach(o => { if (o.textContent === want) select.value = o.value; });
+  }));
+
+  // form -> WhatsApp
+  document.getElementById("quoteForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const text =
+      "Hello " + CONFIG.brand + ",\n" +
+      "Name: " + f.get("name") + "\n" +
+      "Phone: " + f.get("phone") + "\n" +
+      "Looking for: " + f.get("need") + "\n" +
+      (f.get("msg") ? "Details: " + f.get("msg") : "");
+    window.open("https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(text), "_blank");
+  });
+</script>
+</body>
+</html>
